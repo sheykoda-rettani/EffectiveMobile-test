@@ -12,10 +12,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoginTest {
 
     private WebDriver driver;
+    private static final Logger logger = LoggerFactory.getLogger(LoginTest.class);
 
     @Step("Инициализация веб-драйвера")
     @BeforeEach
@@ -23,6 +26,7 @@ public class LoginTest {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        logger.info("Запущен веб-драйвер.");
     }
 
     @Step("Завершение работы веб-драйвера")
@@ -30,6 +34,7 @@ public class LoginTest {
     public void tearDown() {
         if (driver != null) {
             driver.quit();
+            logger.info("Закрыт веб-драйвер.");
         }
     }
 
@@ -44,11 +49,14 @@ public class LoginTest {
         String baseUrl = "https://www.saucedemo.com";
 
         driver.get(baseUrl);
+        logger.info("Открытие страницы {}", baseUrl);
 
         driver.findElement(By.id("user-name")).sendKeys("standard_user");
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
+        logger.info("Введены учетные данне пользователя");
 
         driver.findElement(By.id("login-button")).click();
+        logger.info("Нажата кнопка входа.");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.urlToBe("https://www.saucedemo.com/inventory.html"));
@@ -57,7 +65,8 @@ public class LoginTest {
         org.junit.jupiter.api.Assertions.assertEquals(
                 "https://www.saucedemo.com/inventory.html",
                 currentURL,
-                "Пользователь должен попасть на страницу инвентаря."
+                "Пользователь должен попасть на страницу каталога."
         );
+        logger.info("Тест пройден успешно.");
     }
 }
