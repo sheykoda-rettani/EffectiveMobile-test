@@ -4,7 +4,7 @@
 
 ### Сборка проекта
 ```shell
-  mvn clean install
+  mvn clean test
 ```
 
 ### Генерация отчета Allure:

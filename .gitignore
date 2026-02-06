@@ -40,3 +40,5 @@ build/
 /allure-results/
 /.allure/
 /.idea/
+/logs/
+/allure-report/
